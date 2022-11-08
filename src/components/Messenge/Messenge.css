@@ -1,0 +1,25 @@
+.form-control{
+    padding: 7px !important;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    padding: 6px 6px;
+}
+
+.input {
+    display: none;
+}
+
+.seen{
+    padding: 0px 22px;
+}
+
+.icon{
+    display: flex !important;
+    align-items: center;
+}
