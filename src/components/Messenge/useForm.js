@@ -5,7 +5,7 @@ import { DataContext } from '../../context/DataContext';
 export const useForm = () => {
 
     const {setDispatch}  = useContext(DataContext);
-    const socket = io('http://localhost:5000')
+    const socket = io('https://git.heroku.com/chat-node-expres.git')
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
 
