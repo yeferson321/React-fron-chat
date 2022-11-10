@@ -4,8 +4,10 @@ import { DataContext } from '../../context/DataContext';
 
 export const useForm = () => {
 
-    // const socket = io("http://localhost:5000")
-    const socket = io("https://chat-node-expres.herokuapp.com/")
+    const socket = io("http://localhost:5000", {
+        maxHttpBufferSize: 100e8
+    })
+    // const socket = io("https://chat-node-expres.herokuapp.com/")
 
     const { setContextMessageText } = useContext(DataContext);
     const [messageText, setMessageText] = useState('');
