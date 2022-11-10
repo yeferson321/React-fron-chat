@@ -4,11 +4,12 @@ import { DataContext } from '../../context/DataContext';
 
 export const useForm = () => {
 
-    // const socket = io("http://localhost:5000", {
-    //     maxHttpBufferSize: 100e8
-    // })
-    const socket = io("https://chat-node-expres.herokuapp.com/", {
-        maxHttpBufferSize: 100000000e8
+    // // const socket = io("http://localhost:5000", {
+    // //     maxHttpBufferSize: 1000e8
+    // // })
+
+    const socket = io("https://react-back-chat-54fl-n932wzph7-yeferson321.vercel.app/",{
+        maxHttpBufferSize: 1000e8
     })
 
     const { setContextMessageText } = useContext(DataContext);
@@ -32,27 +33,27 @@ export const useForm = () => {
         e.preventDefault();
 
         if (file) {
-            const messageObject = {
-                body: file.file,
-                type: "file",
-                mimeType: file.type,
+            const messageObject = { 
+                body: file.file, 
+                type: "file", 
+                mimeType: file.type, 
                 name: file.name,
-                from: "You"
+                from: "You" 
             }
             setMessagesText([...messagesText, messageObject])
-            setMessageText("");
+            setMessageText(""); 
             setFile("");
 
             socket.emit("messageText", messageObject);
 
         } else {
-            const messageObject = {
-                body: messageText,
-                type: "text",
-                from: "You"
+            const messageObject = { 
+                body: messageText, 
+                type: "text", 
+                from: "You" 
             }
             setMessagesText([...messagesText, messageObject])
-            setMessageText("");
+            setMessageText(""); 
 
             socket.emit("messageText", messageObject);
         }
@@ -65,10 +66,10 @@ export const useForm = () => {
             setMessagesText([...messagesText, messageText])
         };
 
-        socket.on('messageText', receiveMessage)
+        socket.on('message', receiveMessage)
 
         return () => {
-            socket.off('messageText', receiveMessage)
+            socket.off('message', receiveMessage)
         }
 
     }, [messagesText, socket])
