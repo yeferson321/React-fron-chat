@@ -8,7 +8,7 @@ export const useForm = () => {
     //     maxHttpBufferSize: 100e8
     // })
     const socket = io("https://chat-node-expres.herokuapp.com/", {
-        maxHttpBufferSize: 100000e8
+        maxHttpBufferSize: 100000000e8
     })
 
     const { setContextMessageText } = useContext(DataContext);
