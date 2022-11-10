@@ -8,7 +8,7 @@ export const useForm = () => {
     // //     maxHttpBufferSize: 1000e8
     // // })
 
-    const socket = io("https://react-back-chat-54fl.vercel.app",{
+    const socket = io("https://react-back-chat-54fl.vercel.app/",{
         maxHttpBufferSize: 1000e8
     })
 
