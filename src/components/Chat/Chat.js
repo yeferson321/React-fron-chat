@@ -4,25 +4,44 @@ import './chat.css'
 
 
 function Chat() {
-    const dispatch = useContext(DataContext);
-    console.log(dispatch)
+    const ContextMessageText = useContext(DataContext);
+
+    const files = (messageText) => {
+        console.log("files", messageText.mimeType)
+        if (messageText.body) {
+            const blob = new Blob([messageText.body], { type: messageText.mimeType });
+            const fileURL = URL.createObjectURL(blob);
+            return fileURL
+        }
+    }
 
     return (
 
         <div className='chat'>
 
+            {ContextMessageText.ContextMessageText?.map((messagesText, index) => (
 
-{/* <video
-                src='https://firebasestorage.googleapis.com/v0/b/apideployusers.appspot.com/o/y2mate.com%20-%20RealestK%20%20WFM%20Official%20Music%20Video_v720P.mp4?alt=media&token=6e3bc9de-0f05-4896-8451-e098c11b7f29'
-            /> */}
+                messagesText.type === "text" ?
 
-            {dispatch.dispatch?.map((message, index) => (
+                    <div key={index} className={`${messagesText.from === "You" ? "right" : "left"}`}>
 
-                <div key={index} className={`${message.from === "You" ? "right" : "left"}`}>
+                        <h6 className={`message ${messagesText.from === "You" ? "bg-primary text-white" : "bg-dark text-white"}`}>{messagesText.from}: {messagesText.body}</h6>
 
-                    <h6 className={`message ${message.from === "You" ? "bg-primary text-white" : "bg-dark text-white"}`}>{message.from}: {message.body}</h6>
+                    </div> :
 
-                </div>
+                    <div key={index} className={`${messagesText.from === "You" ? "right" : "left"}`}>
+
+                        {messagesText.mimeType.startsWith('image') ?
+
+                            <img src={files(messagesText)} className="card-img-top" alt="..." /> :
+
+                            <div className='video'>
+                                <iframe src={files(messagesText)} title="sent video" allowfullscreen></iframe>
+                            </div>
+                        }
+
+                    </div>
+
             ))}
 
         </div>

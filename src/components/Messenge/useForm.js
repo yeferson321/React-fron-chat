@@ -4,43 +4,71 @@ import { DataContext } from '../../context/DataContext';
 
 export const useForm = () => {
 
-    const {setDispatch}  = useContext(DataContext);
-    const socket = io('https://chat-node-expres.herokuapp.com/')
-    const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState([]);
+    // const socket = io("http://localhost:5000")
+    const socket = io("https://chat-node-expres.herokuapp.com/")
 
-    setDispatch(messages)
+    const { setContextMessageText } = useContext(DataContext);
+    const [messageText, setMessageText] = useState('');
+    const [messagesText, setMessagesText] = useState([]);
+    const [file, setFile] = useState('');
+
+    setContextMessageText(messagesText)
+
+    const filesSelect = (e) => {
+        setFile(
+            {
+                file: e.target.files[0],
+                type: e.target.files[0].type,
+                name: e.target.files[0].name,
+                size: e.target.files[0].size
+            })
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log(message)
+        if (file) {
+            const messageObject = { 
+                body: file.file, 
+                type: "file", 
+                mimeType: file.type, 
+                name: file.name,
+                from: "You" 
+            }
+            setMessagesText([...messagesText, messageObject])
+            setMessageText(""); 
+            setFile("");
 
-        socket.emit('message', message)
+            socket.emit("messageText", messageObject);
 
-        const newMessage = {
-            body: message,
-            from: "You"
+        } else {
+            const messageObject = { 
+                body: messageText, 
+                type: "text", 
+                from: "You" 
+            }
+            setMessagesText([...messagesText, messageObject])
+            setMessageText(""); 
+
+            socket.emit("messageText", messageObject);
         }
-
-        setMessages([...messages, newMessage])
-
-        setMessage("");
     }
 
     useEffect(() => {
-        const receiveMessage = message =>{
-            setMessages([...messages, message])
+
+        const receiveMessage = messageText => {
+            console.log(messageText)
+            setMessagesText([...messagesText, messageText])
         };
 
-        socket.on('message', receiveMessage )
+        socket.on('messageText', receiveMessage)
 
         return () => {
-            socket.off('message', receiveMessage)
+            socket.off('messageText', receiveMessage)
         }
-        
-    }, [messages, socket])
 
-    return { message, setMessage, handleSubmit }
+    }, [messagesText, socket])
+
+    return { messageText, filesSelect, setMessageText, handleSubmit }
 
 }

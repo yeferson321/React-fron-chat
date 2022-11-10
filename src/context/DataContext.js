@@ -6,11 +6,11 @@ const DataProvider = ({children}) => {
 
   const [isLoggedIn] = useState(!!localStorage.getItem('token'));
 
-  const [dispatch, setDispatch] = useState();
+  const [ContextMessageText, setContextMessageText] = useState();
 
   return (
 
-    <DataContext.Provider value={{ dispatch, setDispatch, isLoggedIn }}>
+    <DataContext.Provider value={{ ContextMessageText, setContextMessageText, isLoggedIn }}>
       {children}
     </DataContext.Provider>
 
