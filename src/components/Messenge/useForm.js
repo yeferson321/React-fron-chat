@@ -4,7 +4,7 @@ import { DataContext } from '../../context/DataContext';
 
 export const useForm = () => {
 
-    const socket = io("https://chat-node-expres.herokuapp.com/1", {
+    const socket = io("https://chat-node-expres.herokuapp.com/", {
        maxHttpBufferSize: 1000e8
     })
 
