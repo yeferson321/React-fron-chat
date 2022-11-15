@@ -7,7 +7,7 @@ function Chat() {
     const ContextMessageText = useContext(DataContext);
 
     const files = (messageText) => {
-        console.log("files", messageText.mimeType)
+        // console.log("files", messageText.mimeType)
         if (messageText.body) {
             const blob = new Blob([messageText.body], { type: messageText.mimeType });
             const fileURL = URL.createObjectURL(blob);

@@ -4,7 +4,7 @@ import { DataContext } from '../../context/DataContext';
 
 export const useForm = () => {
 
-    const socket = io("https://react-back-chat.vercel.app/", {
+    const socket = io("https://chat-node-expres.herokuapp.com/", {
        maxHttpBufferSize: 1000e8
     })
     // const socket = io("https://react-back-chat.vercel.app/",{
@@ -60,18 +60,20 @@ export const useForm = () => {
 
     useEffect(() => {
 
-        const receiveMessage = messageText => {
-            console.log(messageText)
-            setMessagesText([...messagesText, messageText])
-        };
+        // const receiveMessage = messageText => {
+        //     setMessagesText([...messagesText, messageText])
+        // };
 
-        socket.on('message', receiveMessage)
+        socket.on('message', (messageText) => {
+            console.log("archivo", messageText)
+            setMessagesText([...messagesText, messageText])
+        })
 
         return () => {
-            socket.off('message', receiveMessage)
+            socket.off('message', messageText)
         }
 
-    }, [messagesText, socket])
+    }, [messagesText, messageText, socket])
 
     return { messageText, filesSelect, setMessageText, handleSubmit }
 
